@@ -45,7 +45,15 @@ export default class ActiveRecord {
     return this.getBy({id})
   }
 
-  constructor(fields = {}) {
+  static async create(fields = {}) {
+    const Klass = this
+    const record = new Klass(fields)
+    const { valid, errors } = await record.save()
+
+    return { valid, errors, record }
+  }
+
+  constructor(fields = {}, options = {}) {
     const fieldDefs = Object.entries(this.constructor.config.fields || {})
     const keys = Object.keys(fields)
 
@@ -55,6 +63,14 @@ export default class ActiveRecord {
       if (!keys.includes(name))
         this[name] = null
     })
+
+    if (options.hydrating) {
+      this.isNewRecord = false
+      this.isDirty = false
+    } else {
+      this.isNewRecord = true
+      this.isDirty = true
+    }
   }
 
   get isPersisted() {
@@ -80,5 +96,23 @@ export default class ActiveRecord {
     const valid = Object.keys(errors).length == 0
 
     return {valid, errors}
+  }
+
+  async save() {
+    const result = await this.validate()
+    const config = this.constructor.config
+
+    if (!result.valid) return result
+
+    const fields = Object.keys(config.fields).reduce((acc, key) => { acc[key] = this[key]; return acc }, {})
+    const {body} = await ActiveRecord
+      .client
+      .from(config.table)
+      .insert(fields)
+
+    this.isNewRecord = false
+    this.isDirty = false
+
+    return { valid: true, errors: {} }
   }
 }

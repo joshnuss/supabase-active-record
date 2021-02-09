@@ -46,10 +46,39 @@ export default class ActiveRecord {
   }
 
   constructor(fields = {}) {
+    const fieldDefs = Object.entries(this.constructor.config.fields || {})
+    const keys = Object.keys(fields)
+
     Object.assign(this, fields)
+
+    fieldDefs.forEach(([name, config]) => {
+      if (!keys.includes(name))
+        this[name] = null
+    })
   }
 
   get isPersisted() {
     return !this.isDirty
+  }
+
+  async validate() {
+    const validations = Object.entries(this.constructor.config.validate || {})
+
+    if (validations.length == 0)
+      return { valid: true, errors: {} }
+
+    let errors = {}
+    const promises = validations.map(async ([key, validation]) => {
+      const error = await validation(this, key)
+
+      if (error) {
+        errors[key] = [...(errors[key] || []), error]
+      }
+    })
+
+    await Promise.all(promises)
+    const valid = Object.keys(errors).length == 0
+
+    return {valid, errors}
   }
 }

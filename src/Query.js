@@ -119,12 +119,7 @@ export default class Query {
 function hydrate(instance, data) {
   if (!data) return null
 
-  const record = new instance._class(data)
-
-  record.isDirty = false
-  record.isNewRecord = false
-
-  return record
+  return new instance._class(data, {hydrating: true})
 }
 
 function addFilter(filters, key, {op, value}) {

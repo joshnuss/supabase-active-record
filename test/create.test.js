@@ -121,6 +121,12 @@ test('create multiple', async () => {
     {name: "Pants"}
   ])
 
+  expect(client.from).toBeCalledWith('products')
+  expect(client.insert).toBeCalledWith([
+    {name: "T-shirt"},
+    {name: "Pants"}
+  ])
+
   expect(products.length).toBe(2)
   expect(products[0].id).toBe(1)
   expect(products[0].name).toBe('T-shirt')

@@ -12,7 +12,7 @@ const is = {
       if (value !== null)
         return
 
-      return 'is required'
+      return options.message || 'is required'
     }
   }
 }

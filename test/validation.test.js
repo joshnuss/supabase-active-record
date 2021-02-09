@@ -66,6 +66,29 @@ describe('validates required', () => {
       errors: {}
     })
   })
+
+  test('custom error message', async () => {
+    class Product extends ActiveRecord {
+      static config = {
+        fields: {
+          name: 'string'
+        },
+        validate: {
+          name: is.required({message: "where's the name??"})
+        }
+      }
+    }
+
+    const product = new Product()
+    const result = await product.validate()
+
+    expect(result).toEqual({
+      valid: false,
+      errors: {
+        name: ["where's the name??"]
+      }
+    })
+  })
 })
 
 describe('custom validation', () => {

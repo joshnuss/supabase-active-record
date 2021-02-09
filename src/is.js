@@ -16,6 +16,23 @@ const is = {
     }
   },
 
+  format(regex, options = {}) {
+    return async (object, key) => {
+      const value = object[key]
+
+      if (options.allowNull && value === null)
+        return
+
+      if (options.allowBlank && typeof(value) === 'string' && value === "")
+        return
+
+      if (value && value.match(regex))
+        return
+
+      return options.message || 'is invalid'
+    }
+  },
+
   numeric(options = {}) {
     return async (object, key) => {
       const value = object[key]

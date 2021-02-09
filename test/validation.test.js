@@ -163,6 +163,88 @@ describe('validates numeric', () => {
   })
 })
 
+describe('validates format', () => {
+  class Person extends ActiveRecord {
+    static config = {
+      fields: {
+        firstName: 'string',
+        lastName: 'string',
+      },
+      validate: {
+        firstName: is.format(/^J/),
+        lastName: is.format(/^N/, {allowBlank: true, allowNull: true})
+      }
+    }
+  }
+
+  test('null fails validation', async () => {
+    const person = new Person()
+    const result = await person.validate()
+
+    expect(result).toEqual({
+      valid: false,
+      errors: {
+        firstName: ['is invalid']
+      }
+    })
+  })
+
+  test('fails validation when invalid', async () => {
+    const person = new Person({firstName: "Tom"})
+    const result = await person.validate()
+
+    expect(result).toEqual({
+      valid: false,
+      errors: {
+        firstName: ['is invalid']
+      }
+    })
+  })
+
+  test('null is ok when when allowed', async () => {
+    const person = new Person({firstName: "Josh"})
+    const result = await person.validate()
+
+    expect(result).toEqual({
+      valid: true,
+      errors: {}
+    })
+  })
+
+  test('blank is ok when when allowed', async () => {
+    const person = new Person({firstName: "Josh", lastName: ""})
+    const result = await person.validate()
+
+    expect(result).toEqual({
+      valid: true,
+      errors: {}
+    })
+  })
+
+  test('custom error message', async () => {
+    class Person extends ActiveRecord {
+      static config = {
+        fields: {
+          name: 'string'
+        },
+        validate: {
+          name: is.format(/J/, {message: "huh?"})
+        }
+      }
+    }
+
+    const product = new Person()
+    const result = await product.validate()
+
+    expect(result).toEqual({
+      valid: false,
+      errors: {
+        name: ["huh?"]
+      }
+    })
+  })
+})
+
 describe('custom validation', () => {
   class Person extends ActiveRecord {
     static config = {

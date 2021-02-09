@@ -107,3 +107,27 @@ describe('creating with factory', () => {
     expect(product.isDirty).toBe(true)
   })
 })
+
+test('create multiple', async () => {
+  client.insert.mockResolvedValue({
+    data: [
+      {id: 1, name: "T-shirt"},
+      {id: 2, name: "Pants"}
+    ]
+  })
+
+  const products = await Product.create([
+    {name: "T-shirt"},
+    {name: "Pants"}
+  ])
+
+  expect(products.length).toBe(2)
+  expect(products[0].id).toBe(1)
+  expect(products[0].name).toBe('T-shirt')
+  expect(products[0].isDirty).toBe(false)
+  expect(products[0].isNewRecord).toBe(false)
+  expect(products[1].id).toBe(2)
+  expect(products[1].name).toBe('Pants')
+  expect(products[0].isDirty).toBe(false)
+  expect(products[0].isNewRecord).toBe(false)
+})

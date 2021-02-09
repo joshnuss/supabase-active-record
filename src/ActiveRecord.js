@@ -45,9 +45,19 @@ export default class ActiveRecord {
     return this.getBy({id})
   }
 
-  static async create(fields = {}) {
+  static async create(input = {}) {
     const Klass = this
-    const record = new Klass(fields)
+
+    if (Array.isArray(input)) {
+      const {data} = await ActiveRecord
+        .client
+        .from(this.config.table)
+        .insert(input)
+
+      return data.map(fields => new Klass(fields, {hydrating: true}))
+    }
+
+    const record = new Klass(input)
     const { valid, errors } = await record.save()
 
     return { valid, errors, record }

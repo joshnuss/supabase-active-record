@@ -33,20 +33,20 @@ const is = {
     }
   },
 
-  numeric(options = {}) {
+  type(type, options = {}) {
     return async (object, key) => {
       const value = object[key]
 
       if (options.allowNull && value === null)
         return
 
-      if (options.allowZero && typeof(value) === 'number' && value === 0)
+      if (options.allowBlank && !value)
         return
 
-      if (typeof(value) == 'number')
+      if (typeof(value) == type)
         return
 
-      return options.message || 'must be numeric'
+      return options.message || `must be a ${type}`
     }
   }
 }

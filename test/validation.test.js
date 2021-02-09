@@ -91,7 +91,7 @@ describe('validates required', () => {
   })
 })
 
-describe('validates numeric', () => {
+describe('validates type', () => {
   class Person extends ActiveRecord {
     static config = {
       fields: {
@@ -99,22 +99,21 @@ describe('validates numeric', () => {
         netWorth: 'number',
       },
       validate: {
-        age: is.numeric(),
-        netWorth: is.numeric({allowNull: true}),
-        parkingTickets: is.numeric({allowZero: true})
+        age: is.type('number'),
+        netWorth: is.type('number', {allowNull: true}),
+        parkingTickets: is.type('number', {allowBlank: true})
       }
     }
   }
 
   test('null fails validation', async () => {
-    const person = new Person()
+    const person = new Person({age: null})
     const result = await person.validate()
 
     expect(result).toEqual({
       valid: false,
       errors: {
-        age: ['must be numeric'],
-        parkingTickets: ['must be numeric'],
+        age: ['must be a number']
       }
     })
   })
@@ -146,7 +145,7 @@ describe('validates numeric', () => {
           age: 'number'
         },
         validate: {
-          age: is.numeric({message: "huh?"})
+          age: is.type('number', {message: "huh?"})
         }
       }
     }

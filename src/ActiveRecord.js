@@ -105,13 +105,14 @@ export default class ActiveRecord {
     if (!result.valid) return result
 
     const fields = Object.keys(config.fields).reduce((acc, key) => { acc[key] = this[key]; return acc }, {})
-    const {body} = await ActiveRecord
+    const {data} = await ActiveRecord
       .client
       .from(config.table)
       .insert(fields)
 
     this.isNewRecord = false
     this.isDirty = false
+    this.id = data[0].id
 
     return { valid: true, errors: {} }
   }

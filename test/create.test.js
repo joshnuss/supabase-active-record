@@ -26,6 +26,12 @@ beforeEach(() => {
 
 describe('creating with save', () => {
   test('when valid', async () => {
+    client.insert.mockResolvedValue({
+      data: [
+        {id: 1, name: "T-Shirt"}
+      ]
+    })
+
     const product = new Product({name: "T-Shirt", price: 99})
 
     expect(product.isPersisted).toBe(false)
@@ -40,6 +46,7 @@ describe('creating with save', () => {
     })
     expect(client.from).toBeCalledWith('products')
     expect(client.insert).toBeCalledWith({name: "T-Shirt", price: 99})
+    expect(product.id).toBe(1)
     expect(product.isNewRecord).toBe(false)
     expect(product.isPersisted).toBe(true)
     expect(product.isDirty).toBe(false)
@@ -64,6 +71,12 @@ describe('creating with save', () => {
 
 describe('creating with factory', () => {
   test('when valid', async () => {
+    client.insert.mockResolvedValue({
+      data: [
+        {id: 1, name: "T-Shirt"}
+      ]
+    })
+
     const { valid, record: product, errors } = await Product.create({
       name: "T-Shirt",
       price: 99
@@ -72,6 +85,7 @@ describe('creating with factory', () => {
     expect(valid).toBe(true)
     expect(errors).toEqual({})
     expect(product).not.toBe(null)
+    expect(product.id).toBe(1)
     expect(client.from).toBeCalledWith('products')
     expect(client.insert).toBeCalledWith({name: "T-Shirt", price: 99})
     expect(product.isNewRecord).toBe(false)

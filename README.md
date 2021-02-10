@@ -16,7 +16,7 @@ ActiveRecord implementation for Supabase (experimental).
 
 ## Subclassing
 
-Each model should inherit from `ActiveRecord`.
+Each model should inherit from `ActiveRecord`:
 
 ```javascript
 class Person extends ActiveRecord {
@@ -33,22 +33,22 @@ class Person extends ActiveRecord {
 
 ## Querying
 
-There are many way to query, you can query for all:
+There are many ways to query the db, you can query for all:
 
 ```javasacript
-const products = await Person.all()
+const people = await Person.all()
 ```
 
-To find a specific record:
+To find a single record:
 
 ```javascript
-const product = await Person.findBy({firstName: "Josh", lastName: "Nussbaum"})
+const person = await Person.findBy({firstName: "Josh", lastName: "Nussbaum"})
 ```
 
-or if you know the id, use:
+or if you know the `id`, use:
 
 ```javascript
-const product = await Person.find(41)
+const person = await Person.find(41)
 ```
 
 ## Creating

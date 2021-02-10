@@ -37,7 +37,7 @@ class Person extends ActiveRecord {
 
 There are many ways to query the db, you can query for all:
 
-```javasacript
+```javascript
 const people = await Person.all()
 ```
 
@@ -62,6 +62,40 @@ try {
   console.error(error.name) // RecordNotFound
 }
 ```
+
+### Filters
+
+Filters can be added to queries using the `where()` function or by chaining multiple `where()`'s together:
+
+```javascript
+// single where
+await Person.where({lastName: 'Jobs'})
+
+// multiple filters
+await Person
+  .where({firstName: 'Steve', lastName: 'Jobs'})
+
+// equivalent using chaining
+await Person
+  .where({firstName: 'Steve'})
+  .where({lastName: 'Jobs'})
+
+// equivalent
+await Person
+  .where('firstName', 'Steve')
+  .where('lastName', 'Jobs')
+
+// equivalent, using operators
+await Person
+  .where('firstName', '=', 'Steve')
+  .where('lastName', 'Jobs')
+
+// supported operators: =, !=, >, <, <=, >=, like, ilike
+await Product
+  .where('price', '>', 100)
+```
+
+## Scopes
 
 ## Creating
 

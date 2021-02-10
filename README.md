@@ -149,6 +149,48 @@ const products = await Product.expensive()
 
 ## Validation
 
+Multiple validations are supported. They are defined in `config.validate`:
+
+```javascript
+import { ActiveRecord, is } from 'supabase-active-record'
+
+class Product extends ActiveRecord {
+  static config = {
+    table: 'products',
+    fields: {
+      name: 'string',
+      price: 'number'
+    },
+    validates: {
+      name: is.required()
+      price: is.type('number')
+    }
+  }
+}
+```
+
+Supported validations: `is.required()`, `is.type()`, `is.length()`, `is.format()`
+
+### Custom validation
+
+A validation is just a function that takes an `object` (the record) and returns a `string` (error message).
+
+```javascript
+import { ActiveRecord, is } from 'supabase-active-record'
+
+class Product extends ActiveRecord {
+  static config = {
+    // ...
+    validates: {
+      name: record => {
+        if (name.length < 3)
+          return 'is too short'
+      }
+    }
+  }
+}
+```
+
 ## Creating
 
 ## Updating

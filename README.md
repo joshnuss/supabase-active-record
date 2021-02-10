@@ -68,17 +68,12 @@ try {
 Filters can be added to queries using the `where()` function or by chaining multiple `where()`'s together:
 
 ```javascript
-// single where
+// single filter
 await Person.where({lastName: 'Jobs'})
 
 // multiple filters
 await Person
   .where({firstName: 'Steve', lastName: 'Jobs'})
-
-// equivalent using chaining
-await Person
-  .where({firstName: 'Steve'})
-  .where({lastName: 'Jobs'})
 
 // equivalent
 await Person
@@ -88,12 +83,38 @@ await Person
 // equivalent, using operators
 await Person
   .where('firstName', '=', 'Steve')
-  .where('lastName', 'Jobs')
+  .where('lastName', '=', 'Jobs')
 
 // supported operators: =, !=, >, <, <=, >=, like, ilike
 await Product
   .where('price', '>', 100)
+  .where('name', 'like', '*shirt*')
 ```
+
+### Ordering
+
+Data can be ordered by calling `.order()`:
+
+```javascript
+// sort by column
+await Product
+  .all()
+  .order('name')
+
+// sort by multiple columns
+await Product
+  .all()
+  .order(['price', 'name'])
+
+// ascending and descending can be specified as `asc` and `desc`
+await Product
+  .all()
+  .order({price: 'desc', name: 'asc'})
+```
+
+
+### Limiting
+
 
 ## Scopes
 

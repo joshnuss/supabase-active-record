@@ -49,7 +49,7 @@ test('all', async () => {
   expect(product.id).toEqual(1)
   expect(product.name).toEqual('T-Shirt')
   expect(product.isPersisted).toBe(true)
-  expect(product.isDirty).toBe(false)
+  expect(product.isChanged).toBe(false)
   expect(product.isNewRecord).toBe(false)
   expect(product.constructor).toEqual(Product)
 
@@ -58,7 +58,7 @@ test('all', async () => {
   expect(product.id).toEqual(2)
   expect(product.name).toEqual('Pants')
   expect(product.isPersisted).toBe(true)
-  expect(product.isDirty).toBe(false)
+  expect(product.isChanged).toBe(false)
   expect(product.isNewRecord).toBe(false)
   expect(product.constructor).toEqual(Product)
 })

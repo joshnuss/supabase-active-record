@@ -37,7 +37,7 @@ describe('deleting', () => {
     const product = new Product({id: 1, name: "T-Shirt", price: 99}, {hydrating: true})
 
     expect(product.isPersisted).toBe(true)
-    expect(product.isDirty).toBe(false)
+    expect(product.isChanged).toBe(false)
     expect(product.isNewRecord).toBe(false)
 
     await product.delete()
@@ -47,7 +47,7 @@ describe('deleting', () => {
     expect(client.delete).toBeCalled()
     expect(product.id).toBe(1)
     expect(product.isPersisted).toBe(true)
-    expect(product.isDirty).toBe(false)
+    expect(product.isChanged).toBe(false)
   })
 
   test('when invalid', async () => {
@@ -60,6 +60,6 @@ describe('deleting', () => {
     expect(client.match).toBeCalledWith({id: 2})
     expect(client.delete).toBeCalled()
     expect(product.isPersisted).toBe(false)
-    expect(product.isDirty).toBe(true)
+    expect(product.isChanged).toBe(true)
   })
 })

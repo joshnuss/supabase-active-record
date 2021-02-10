@@ -27,7 +27,7 @@ describe('dirty tracking', () => {
   test('starts as clean', () => {
     const product = new Product()
 
-    expect(product.isDirty).toBe(true)
+    expect(product.isChanged).toBe(true)
     expect(product.isPersisted).toBe(false)
   })
 
@@ -36,7 +36,7 @@ describe('dirty tracking', () => {
 
     product.name = "T-Shirt"
 
-    expect(product.isDirty).toBe(true)
+    expect(product.isChanged).toBe(true)
     expect(product.isPersisted).toBe(false)
   })
 
@@ -46,7 +46,7 @@ describe('dirty tracking', () => {
     product.name = "T-Shirt"
     await product.save()
 
-    expect(product.isDirty).toBe(false)
+    expect(product.isChanged).toBe(false)
     expect(product.isPersisted).toBe(true)
   })
 })

@@ -78,15 +78,15 @@ export default class ActiveRecord {
 
     if (options.hydrating) {
       this.isNewRecord = false
-      this.isDirty = false
+      this.isChanged = false
     } else {
       this.isNewRecord = true
-      this.isDirty = true
+      this.isChanged = true
     }
   }
 
   get isPersisted() {
-    return !this.isDirty
+    return !this.isChanged
   }
 
   async validate() {
@@ -136,7 +136,7 @@ export default class ActiveRecord {
         .match({id: this.id})
     }
 
-    this.isDirty = false
+    this.isChanged = false
 
     return { valid: true, errors: {} }
   }
@@ -165,7 +165,7 @@ function initialize(instance) {
           return this.$values[field]
         },
         set: function(value) {
-          if (this.$values[field] !== value) this.isDirty = true
+          if (this.$values[field] !== value) this.isChanged = true
 
           this.$values[field] = value
         }

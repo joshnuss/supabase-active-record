@@ -273,22 +273,22 @@ const person = new Person({firstName: "Steve", lastName: "Jobs"})
 console.log(person.fullName) // Steve Jobs
 ```
 
-## Dirty Tracking
+## Change Tracking
 
-Each record tracks whether it has any changes. When it has changes `record.isDirty == true`, when it doesn't have changes `record.isPersisted == true`
+Each record tracks whether it has any changes. When it has changes `record.isChanged == true`, when it doesn't have changes `record.isPersisted == true`
 
 ```javascript
 const product = new Product()
 
 console.log(product.isNewRecord) // true
-console.log(product.isDirty) // true
-console.log(product.isPersisted) // false (opposite of isDirty)
+console.log(product.isChanged) // true
+console.log(product.isPersisted) // false (opposite of isChanged)
 
 await product.save()
 
 // now it's no longer a new record or dirty
 console.log(product.isNewRecord) // false
-console.log(product.isDirty) // false
+console.log(product.isChanged) // false
 console.log(product.isPersisted) // true
 ```
 

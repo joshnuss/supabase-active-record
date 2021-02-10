@@ -37,7 +37,7 @@ describe('updating', () => {
     const product = new Product({id: 1, name: "T-Shirt", price: 99}, {hydrating: true})
 
     expect(product.isPersisted).toBe(true)
-    expect(product.isDirty).toBe(false)
+    expect(product.isChanged).toBe(false)
     expect(product.isNewRecord).toBe(false)
 
     const result = await product.save()
@@ -52,7 +52,7 @@ describe('updating', () => {
     expect(product.id).toBe(1)
     expect(product.isNewRecord).toBe(false)
     expect(product.isPersisted).toBe(true)
-    expect(product.isDirty).toBe(false)
+    expect(product.isChanged).toBe(false)
   })
 
   test('when invalid', async () => {
@@ -70,6 +70,6 @@ describe('updating', () => {
     expect(client.update).not.toBeCalled()
     expect(product.isNewRecord).toBe(false)
     expect(product.isPersisted).toBe(false)
-    expect(product.isDirty).toBe(true)
+    expect(product.isChanged).toBe(true)
   })
 })

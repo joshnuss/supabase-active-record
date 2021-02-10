@@ -35,7 +35,7 @@ describe('creating with save', () => {
     const product = new Product({name: "T-Shirt", price: 99})
 
     expect(product.isPersisted).toBe(false)
-    expect(product.isDirty).toBe(true)
+    expect(product.isChanged).toBe(true)
     expect(product.isNewRecord).toBe(true)
 
     const result = await product.save()
@@ -49,7 +49,7 @@ describe('creating with save', () => {
     expect(product.id).toBe(1)
     expect(product.isNewRecord).toBe(false)
     expect(product.isPersisted).toBe(true)
-    expect(product.isDirty).toBe(false)
+    expect(product.isChanged).toBe(false)
   })
 
   test('when invalid', async () => {
@@ -65,7 +65,7 @@ describe('creating with save', () => {
     expect(client.insert).not.toBeCalled()
     expect(product.isNewRecord).toBe(true)
     expect(product.isPersisted).toBe(false)
-    expect(product.isDirty).toBe(true)
+    expect(product.isChanged).toBe(true)
   })
 })
 
@@ -90,7 +90,7 @@ describe('creating with factory', () => {
     expect(client.insert).toBeCalledWith({name: "T-Shirt", price: 99})
     expect(product.isNewRecord).toBe(false)
     expect(product.isPersisted).toBe(true)
-    expect(product.isDirty).toBe(false)
+    expect(product.isChanged).toBe(false)
   })
 
   test('when invalid', async () => {
@@ -104,7 +104,7 @@ describe('creating with factory', () => {
     expect(client.insert).not.toBeCalled()
     expect(product.isNewRecord).toBe(true)
     expect(product.isPersisted).toBe(false)
-    expect(product.isDirty).toBe(true)
+    expect(product.isChanged).toBe(true)
   })
 })
 
@@ -130,10 +130,10 @@ test('create multiple', async () => {
   expect(products.length).toBe(2)
   expect(products[0].id).toBe(1)
   expect(products[0].name).toBe('T-shirt')
-  expect(products[0].isDirty).toBe(false)
+  expect(products[0].isChanged).toBe(false)
   expect(products[0].isNewRecord).toBe(false)
   expect(products[1].id).toBe(2)
   expect(products[1].name).toBe('Pants')
-  expect(products[0].isDirty).toBe(false)
+  expect(products[0].isChanged).toBe(false)
   expect(products[0].isNewRecord).toBe(false)
 })

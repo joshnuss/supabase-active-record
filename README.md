@@ -277,7 +277,7 @@ console.log(person.fullName) // Steve Jobs
 Each record tracks whether it has any changes. When it has changes `record.isDirty == true`, when it doesn't have changes `record.isPersisted == true`
 
 ```javascript
-product = new Product()
+const product = new Product()
 
 console.log(product.isNewRecord) // true
 console.log(product.isDirty) // true
@@ -285,7 +285,7 @@ console.log(product.isPersisted) // false (opposite of isDirty)
 
 await product.save()
 
-// now it's not a new record or dirty
+// now it's no longer a new record or dirty
 console.log(product.isNewRecord) // false
 console.log(product.isDirty) // false
 console.log(product.isPersisted) // true

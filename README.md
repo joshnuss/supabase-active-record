@@ -193,9 +193,65 @@ class Product extends ActiveRecord {
 
 ## Creating
 
+To create a single record:
+
+```javascript
+const {valid, errors, record} = await Product.create({name: 'Shirt'})
+```
+
+or using an instance:
+
+```javascript
+const product = new Product({name: 'Shirt'})
+const { valid, errors } = await product.save()
+```
+
+or create multiple records at once:
+
+```javascript
+await Product.create([
+  {name: 'Shirt'},
+  {name: 'Pants'}
+])
+```
+
 ## Updating
 
+To update a single record:
+
+```javascript
+const product = await Product.find(1)
+
+product.price += 100
+
+const {valid, errors} = await product.save()
+```
+
+or update multiple records at once:
+
+```javascript
+await Product
+  .where('price', '=', 1)
+  .update({price: 2})
+```
+
 ## Deleting
+
+To delete a single record:
+
+```javascript
+const product = await Product.find(1)
+
+await product.delete()
+```
+
+or delete multiple records at once:
+
+```javascript
+await Product
+  .where('price', '>', 1000)
+  .delete()
+```
 
 ## Instance methods
 

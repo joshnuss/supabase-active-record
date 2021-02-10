@@ -59,8 +59,7 @@ describe('deleting', () => {
     expect(client.from).toBeCalledWith('products')
     expect(client.match).toBeCalledWith({id: 2})
     expect(client.delete).toBeCalled()
-    // TODO: add back when dirty tracking is working
-    // expect(product.isPersisted).toBe(false)
-    // expect(product.isDirty).toBe(true)
+    expect(product.isPersisted).toBe(false)
+    expect(product.isDirty).toBe(true)
   })
 })

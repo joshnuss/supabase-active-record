@@ -64,14 +64,16 @@ export default class ActiveRecord {
   }
 
   constructor(fields = {}, options = {}) {
+    if (!this.constructor._initialized) initialize(this)
+
     const fieldDefs = Object.entries(this.constructor.config.fields || {})
     const keys = Object.keys(fields)
 
-    Object.assign(this, fields)
+    this.$values = Object.assign({}, fields)
 
     fieldDefs.forEach(([name, config]) => {
       if (!keys.includes(name))
-        this[name] = null
+        this.$values[name] = null
     })
 
     if (options.hydrating) {
@@ -127,7 +129,7 @@ export default class ActiveRecord {
       const {data} = await table.insert(fields)
 
       this.isNewRecord = false
-      this.id = data[0].id
+      this.$values.id = data[0].id
     } else {
       await table
         .update(fields)
@@ -148,4 +150,33 @@ export default class ActiveRecord {
       .delete()
       .match({id: this.id})
   }
+}
+
+function initialize(instance) {
+  const klass = instance.constructor
+  const config = klass.config
+
+  Object
+    .keys(config.fields)
+    .filter(key => key != 'id')
+    .forEach(field => {
+      Object.defineProperty(klass.prototype, field, {
+        get: function () {
+          return this.$values[field]
+        },
+        set: function(value) {
+          if (this.$values[field] !== value) this.isDirty = true
+
+          this.$values[field] = value
+        }
+      })
+    })
+
+  Object.defineProperty(klass.prototype, 'id', {
+    get: function () {
+      return this.$values.id
+    }
+  })
+
+  klass._initialized = true
 }

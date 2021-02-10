@@ -69,8 +69,7 @@ describe('updating', () => {
     })
     expect(client.update).not.toBeCalled()
     expect(product.isNewRecord).toBe(false)
-    // TODO: add back when dirty tracking is working
-    // expect(product.isPersisted).toBe(false)
-    // expect(product.isDirty).toBe(true)
+    expect(product.isPersisted).toBe(false)
+    expect(product.isDirty).toBe(true)
   })
 })

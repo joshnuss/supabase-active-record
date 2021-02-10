@@ -16,7 +16,40 @@ ActiveRecord implementation for Supabase (experimental).
 
 ## Subclassing
 
+Each model should inherit from `ActiveRecord`.
+
+```javascript
+class Person extends ActiveRecord {
+  static config = {
+    table: 'people',
+    fields: {
+      id: 'serial',
+      firstName: 'string',
+      lastName: 'string'
+    }
+  }
+}
+```
+
 ## Querying
+
+There are many way to query, you can query for all:
+
+```javasacript
+const products = await Person.all()
+```
+
+To find a specific record:
+
+```javascript
+const product = await Person.findBy({firstName: "Josh", lastName: "Nussbaum"})
+```
+
+or if you know the id, use:
+
+```javascript
+const product = await Person.find(41)
+```
 
 ## Creating
 
@@ -25,6 +58,10 @@ ActiveRecord implementation for Supabase (experimental).
 ## Deleting
 
 ## Validation
+
+## Instance methods
+
+## Dirty Tracking
 
 # Setup
 

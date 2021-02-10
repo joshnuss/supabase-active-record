@@ -112,9 +112,16 @@ await Product
   .order({price: 'desc', name: 'asc'})
 ```
 
-
 ### Limiting
 
+To limit the number of records returned:
+
+```javascript
+// returns 10 records max
+await Product
+  .all()
+  .limit(10)
+```
 
 ## Scopes
 

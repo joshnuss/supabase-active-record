@@ -93,7 +93,7 @@ await Product
 
 ### Ordering
 
-Data can be ordered by calling `.order()`:
+Data can be ordered by one or more columns:
 
 ```javascript
 // sort by column
@@ -117,10 +117,9 @@ await Product
 To limit the number of records returned:
 
 ```javascript
-// returns 10 records max
 await Product
   .all()
-  .limit(10)
+  .limit(10) // 10 records max
 ```
 
 ## Scopes

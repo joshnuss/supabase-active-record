@@ -259,6 +259,19 @@ await Product
 
 ## Instance methods
 
+Instances methods can be added to the model:
+
+```javascript
+class Person extends ActiveRecord {
+  get fullName() {
+    return `${this.firstName} ${this.lastName}`
+  }
+}
+
+const person = new Person({firstName: "Steve", lastName: "Jobs"})
+console.log(person.fullName) // Steve Jobs
+```
+
 ## Dirty Tracking
 
 # Setup

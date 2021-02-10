@@ -207,34 +207,39 @@ or using an instance:
 const product = new Product()
 
 product.name = 'Shirt'
+product.price = 100
 
 const { valid, errors } = await product.save()
 ```
 
-or create multiple records at once:
+To create multiple records at once:
 
 ```javascript
 await Product.create([
-  {name: 'Shirt'},
-  {name: 'Pants'}
+  {name: 'Shirt', price: 20},
+  {name: 'Pants', price: 100}
 ])
 ```
 
 ## Updating
 
-To update a single record:
+To update a record, call `record.save()`:
 
 ```javascript
+// get existing record
 const product = await Product.find(1)
 
+// change record
 product.price++
 
+// save record
 const {valid, errors} = await product.save()
 ```
 
 or update multiple records at once:
 
 ```javascript
+// update all records where price=1 to price=2
 await Product
   .where('price', '=', 1)
   .update({price: 2})
@@ -242,17 +247,20 @@ await Product
 
 ## Deleting
 
-To delete a single record:
+To delete a record:
 
 ```javascript
+// get existing record
 const product = await Product.find(1)
 
+// delete it
 await product.delete()
 ```
 
 or delete multiple records at once:
 
 ```javascript
+// delete all records where price > 1000
 await Product
   .where('price', '>', 1000)
   .delete()
@@ -264,18 +272,27 @@ Instances methods can be added to the model:
 
 ```javascript
 class Person extends ActiveRecord {
+  // define a getter to return full name
   get fullName() {
     return `${this.firstName} ${this.lastName}`
+  }
+
+  // define a method to update name
+  anonymize() {
+    this.firstName = 'Anonymous'
+    this.lastName = 'Anonymous'
   }
 }
 
 const person = new Person({firstName: "Steve", lastName: "Jobs"})
 console.log(person.fullName) // Steve Jobs
+person.anonymize()
+console.log(person.fullName) // Anonymous Anonymous
 ```
 
 ## Change Tracking
 
-Each record tracks whether it has any changes. When it has changes `record.isChanged == true`, when it doesn't have changes `record.isPersisted == true`
+Each record tracks whether it has any changes. When it has changes `record.isChanged == true`, when it doesn't have changes `record.isChanged == false`. The is also `record.isPersisted` which is the opposite of `record.isChanged`.
 
 ```javascript
 const product = new Product()

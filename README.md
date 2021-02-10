@@ -14,14 +14,15 @@ ActiveRecord implementation for Supabase (experimental).
 
 # Examples
 
-## Subclassing
+## Models
 
-Each model should inherit from `ActiveRecord`:
+Each model inherits from `ActiveRecord`:
 
 ```javascript
 import { ActiveRecord } from 'supabase-active-record'
 
 class Person extends ActiveRecord {
+  // define table name and fields
   static config = {
     table: 'people',
     fields: {
@@ -202,7 +203,10 @@ const {valid, errors, record} = await Product.create({name: 'Shirt'})
 or using an instance:
 
 ```javascript
-const product = new Product({name: 'Shirt'})
+const product = new Product()
+
+product.name = 'Shirt'
+
 const { valid, errors } = await product.save()
 ```
 
@@ -222,7 +226,7 @@ To update a single record:
 ```javascript
 const product = await Product.find(1)
 
-product.price += 100
+product.price++
 
 const {valid, errors} = await product.save()
 ```

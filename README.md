@@ -173,7 +173,7 @@ Supported validations: `is.required()`, `is.type()`, `is.length()`, `is.format()
 
 ### Custom validation
 
-A validation is just a function that takes an `object` (the record) and returns a `string` (error message).
+A validation is a function that takes an `object` (the record) and returns a `string` (the error message).
 
 ```javascript
 import { ActiveRecord, is } from 'supabase-active-record'
@@ -183,7 +183,7 @@ class Product extends ActiveRecord {
     // ...
     validates: {
       name: record => {
-        if (name.length < 3)
+        if (record.name.length < 3)
           return 'is too short'
       }
     }

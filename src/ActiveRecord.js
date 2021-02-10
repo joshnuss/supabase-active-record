@@ -138,4 +138,14 @@ export default class ActiveRecord {
 
     return { valid: true, errors: {} }
   }
+
+  async delete() {
+    const config = this.constructor.config
+
+    return await ActiveRecord
+      .client
+      .from(config.table)
+      .delete()
+      .match({id: this.id})
+  }
 }

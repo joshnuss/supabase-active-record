@@ -114,15 +114,27 @@ export default class ActiveRecord {
 
     if (!result.valid) return result
 
-    const fields = Object.keys(config.fields).reduce((acc, key) => { acc[key] = this[key]; return acc }, {})
-    const {data} = await ActiveRecord
+    const fields = Object
+      .keys(config.fields)
+      .filter(key => key != 'id')
+      .reduce((acc, key) => { acc[key] = this[key]; return acc }, {})
+
+    const table = ActiveRecord
       .client
       .from(config.table)
-      .insert(fields)
 
-    this.isNewRecord = false
+    if (this.isNewRecord) {
+      const {data} = await table.insert(fields)
+
+      this.isNewRecord = false
+      this.id = data[0].id
+    } else {
+      await table
+        .update(fields)
+        .match({id: this.id})
+    }
+
     this.isDirty = false
-    this.id = data[0].id
 
     return { valid: true, errors: {} }
   }

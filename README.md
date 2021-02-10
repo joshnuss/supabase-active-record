@@ -53,7 +53,7 @@ or if you know the `id`, use:
 const person = await Person.find(41)
 ```
 
-`.find()` and `.findBy()` return `null` when not record is found. If you perfer to raise an `NotFoundError`, use `.get()` or  `.getBy()`:
+`ActiveRecord.find()` and `ActiveRecord.findBy()` return `null` when no record is found. If you perfer to raise an `NotFoundError`, use `ActiveRecord.get()` or  `ActiveRecord.getBy()`:
 
 ```javascript
 try {

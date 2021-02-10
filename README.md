@@ -19,6 +19,8 @@ ActiveRecord implementation for Supabase (experimental).
 Each model should inherit from `ActiveRecord`:
 
 ```javascript
+import { ActiveRecord } from 'supabase-active-record'
+
 class Person extends ActiveRecord {
   static config = {
     table: 'people',
@@ -49,6 +51,16 @@ or if you know the `id`, use:
 
 ```javascript
 const person = await Person.find(41)
+```
+
+`.find()` and `.findBy()` return `null` when not record is found. If you perfer to raise an `NotFoundError`, use `.get()` or  `.getBy()`:
+
+```javascript
+try {
+  const person = await Person.get(41)
+} catch (error) {
+  console.error(error.name) // RecordNotFound
+}
 ```
 
 ## Creating

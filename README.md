@@ -124,13 +124,36 @@ await Product
 
 ## Scopes
 
+Named scopes can be defined using `static` functions:
+
+```javascript
+class Product extends ActiveRecord {
+  static config = {
+    table: 'products'
+  }
+
+  static expensive() {
+    return this
+      .where('price', '>', 100)
+      .order({price: 'desc'})
+      .limit(3)
+  }
+}
+```
+
+And then call the scope like this:
+
+```javascript
+const products = await Product.expensive()
+```
+
+## Validation
+
 ## Creating
 
 ## Updating
 
 ## Deleting
-
-## Validation
 
 ## Instance methods
 

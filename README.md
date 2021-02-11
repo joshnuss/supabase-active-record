@@ -346,7 +346,7 @@ console.log(product.isPersisted) // true
 
 # Setup
 
-Install the npm package:
+Install the [npm package](https://www.npmjs.com/package/supabase-active-record):
 
 ```bash
 yarn add supabase-active-record

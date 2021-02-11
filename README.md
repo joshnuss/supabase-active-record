@@ -295,13 +295,21 @@ await Product
 
 ## Instance methods
 
-Instances methods can be added to the model:
+Instance methods, getters and setters can be added to the model:
 
 ```javascript
 class Person extends ActiveRecord {
-  // define a getter to return full name
+  // define a getter
   get fullName() {
     return `${this.firstName} ${this.lastName}`
+  }
+
+  // define a setter
+  set fullName(value) {
+    const [firstName, lastName] = value.split(' ')
+
+    this.firstName = firstName
+    this.lastName = lastName
   }
 
   // define a method to update name

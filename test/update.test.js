@@ -22,6 +22,7 @@ beforeEach(() => {
     from: jest.fn(() => client),
     match: jest.fn(() => client),
     update: jest.fn(() => client),
+    eq: jest.fn(() => client),
   }
   ActiveRecord.client = client
 })
@@ -71,5 +72,19 @@ describe('updating', () => {
     expect(product.isNewRecord).toBe(false)
     expect(product.isPersisted).toBe(false)
     expect(product.isChanged).toBe(true)
+  })
+
+  test('bulk update', async () => {
+    client.update.mockResolvedValue({
+      data: []
+    })
+
+    await Product
+      .where({price: 20})
+      .update({price: 10, label: "on-sale"})
+
+    expect(client.from).toBeCalledWith('products')
+    expect(client.eq).toBeCalledWith('price', 20)
+    expect(client.update).toBeCalledWith({price: 10, label: "on-sale"})
   })
 })

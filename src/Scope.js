@@ -16,6 +16,8 @@ export default class Scope {
     this._limit = null
     this._order = {}
     this._filters = {}
+    this._type = 'query'
+    this._updates = null
   }
 
   where(...args) {
@@ -78,6 +80,13 @@ export default class Scope {
     return this
   }
 
+  update(fields) {
+    this._type = 'update'
+    this._updates = fields
+
+    return this
+  }
+
   then(resolve, reject) {
     let query = this._client
       .from(this._config.table)
@@ -89,20 +98,25 @@ export default class Scope {
       })
     })
 
-    Object.entries(this._order).forEach(([key, direction]) => {
-      query = query.order(key, {ascending: direction == "asc"})
-    })
+    if (this._type == 'query') {
+      Object.entries(this._order).forEach(([key, direction]) => {
+        query = query.order(key, {ascending: direction == "asc"})
+      })
 
-    if (this._single) {
-      query = query.single()
-    }
+      if (this._single) {
+        query = query.single()
+      }
 
-    if (this._limit) {
-      query = query.limit(this._limit)
+      if (this._limit) {
+        query = query.limit(this._limit)
+      }
+
+      query = query.select(this._fields)
+    } else if (this._type == 'update') {
+      query = query.update(this._updates)
     }
 
     query
-      .select(this._fields)
       .then(({data}) => {
         if (this._single) {
           const record = hydrate(this, data)

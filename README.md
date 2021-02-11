@@ -1,4 +1,4 @@
-supabase-active-record
+Supabase ActiveRecord
 ----------------
 
 ActiveRecord implementation for Supabase (experimental).

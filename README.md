@@ -17,7 +17,7 @@ ActiveRecord implementation for Supabase (experimental).
 
 ## Models
 
-Each model inherits from `ActiveRecord`:
+A model is a class that inherits from `ActiveRecord`:
 
 ```javascript
 import { ActiveRecord } from 'supabase-active-record'

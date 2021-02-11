@@ -327,7 +327,7 @@ console.log(person.fullName) // Anonymous Anonymous
 
 ## Change Tracking
 
-Each record tracks whether it has any changes. When it has changes `record.isChanged == true`, when it doesn't have changes `record.isChanged == false`. The is also `record.isPersisted` which is the opposite of `record.isChanged`.
+When a record is changed, `record.isChanged` is set to `true`. There is also `record.isPersisted` which is the opposite of `record.isChanged`.
 
 ```javascript
 const product = new Product()

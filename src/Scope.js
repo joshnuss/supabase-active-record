@@ -128,10 +128,10 @@ export default class Scope {
     query
       .then(({data}) => {
         if (this._single) {
-          const record = hydrate(this, data)
+          const record = hydrate(this._class, data)
           resolve(record)
         } else {
-          const records = data.map(record => hydrate(this, record))
+          const records = data.map(record => hydrate(this._class, record))
           resolve(records)
         }
       })
@@ -139,10 +139,10 @@ export default class Scope {
   }
 }
 
-function hydrate(instance, data) {
+function hydrate(klass, data) {
   if (!data) return null
 
-  return new instance._class(data, {hydrating: true})
+  return new klass(data, {hydrating: true})
 }
 
 function addFilter(filters, key, {op, value}) {

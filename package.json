@@ -1,6 +1,6 @@
 {
   "name": "supabase-active-record",
-  "version": "0.1.0-alpha.2",
+  "version": "0.1.0-alpha.3",
   "main": "index.js",
   "license": "MIT",
   "type": "module",

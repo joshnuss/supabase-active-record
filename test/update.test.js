@@ -75,7 +75,7 @@ describe('updating', () => {
   })
 
   test('in bulk', async () => {
-    client.update.mockResolvedValue({
+    client.eq.mockResolvedValue({
       data: []
     })
 

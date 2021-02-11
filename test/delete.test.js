@@ -65,7 +65,7 @@ describe('deleting', () => {
   })
 
   test('in bulk', async () => {
-    client.delete.mockResolvedValue({
+    client.eq.mockResolvedValue({
       data: []
     })
 

@@ -97,32 +97,33 @@ export default class Scope {
     let query = this._client
       .from(this._config.table)
 
+    if (this._type == 'query') {
+      Object.entries(this._order).forEach(([key, direction]) => {
+        query = query.order(key, {ascending: direction == "asc"})
+      })
+
+      query = query.select(this._fields)
+
+      if (this._limit) {
+        query = query.limit(this._limit)
+      }
+
+      if (this._single) {
+        query = query.single()
+      }
+
+    } else if (this._type == 'update') {
+      query = query.update(this._updates)
+    } else if (this._type == 'delete') {
+      query = query.delete()
+    }
+
     Object.entries(this._filters).forEach(([key, filters]) => {
       filters.forEach(filter => {
         const op = filterOps[filter.op] || filter.op
         query = query[op](key, filter.value)
       })
     })
-
-    if (this._type == 'query') {
-      Object.entries(this._order).forEach(([key, direction]) => {
-        query = query.order(key, {ascending: direction == "asc"})
-      })
-
-      if (this._single) {
-        query = query.single()
-      }
-
-      if (this._limit) {
-        query = query.limit(this._limit)
-      }
-
-      query = query.select(this._fields)
-    } else if (this._type == 'update') {
-      query = query.update(this._updates)
-    } else if (this._type == 'delete') {
-      query = query.delete()
-    }
 
     query
       .then(({data}) => {

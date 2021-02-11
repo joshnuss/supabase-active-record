@@ -22,7 +22,7 @@ beforeEach(() => {
     single: jest.fn(() => client),
     limit: jest.fn(() => client),
     order: jest.fn(() => client),
-    select: jest.fn(),
+    select: jest.fn(() => client),
     eq: jest.fn(() => client),
     neq: jest.fn(() => client),
     gt: jest.fn(() => client),
@@ -64,9 +64,11 @@ test('all', async () => {
 })
 
 test('findBy', async () => {
-  client.select.mockResolvedValue({
-    data: {id: 1, name: "T-Shirt"}
-  })
+  client.eq
+    .mockReturnValueOnce(client)
+    .mockReturnValueOnce(Promise.resolve({
+      data: {id: 1, name: "T-Shirt"}
+    }))
 
   const product = await Product.findBy({id: 1, name: "T-Shirt"})
 
@@ -83,7 +85,7 @@ test('findBy', async () => {
 })
 
 test('find', async () => {
-  client.select.mockResolvedValue({
+  client.eq.mockResolvedValue({
     data: {id: 1, name: "T-Shirt"}
   })
 
@@ -102,7 +104,7 @@ test('find', async () => {
 
 describe('getBy', () => {
   test('returns when found', async () => {
-    client.select.mockResolvedValue({
+    client.eq.mockResolvedValue({
       data: {id: 1, name: "T-Shirt"}
     })
 
@@ -119,7 +121,7 @@ describe('getBy', () => {
   })
 
   test('throws when not found', async () => {
-    client.select.mockResolvedValue({
+    client.eq.mockResolvedValue({
       data: null
     })
 
@@ -131,7 +133,7 @@ describe('getBy', () => {
 
 describe('get', () => {
   test('returns when found', async () => {
-    client.select.mockResolvedValue({
+    client.eq.mockResolvedValue({
       data: {id: 1, name: "T-Shirt"}
     })
 
@@ -148,7 +150,7 @@ describe('get', () => {
   })
 
   test('throws when not found', async () => {
-    client.select.mockResolvedValue({
+    client.eq.mockResolvedValue({
       data: null
     })
 
@@ -159,7 +161,7 @@ describe('get', () => {
 })
 
 test('limit', async () => {
-  client.select.mockResolvedValue({
+  client.limit.mockResolvedValue({
     data: [
       {id: 1, name: "T-Shirt"}
     ]
@@ -262,15 +264,12 @@ describe("order", () => {
 })
 
 describe('where', () => {
-  beforeEach(() => {
-    client.select.mockResolvedValue({
+  test('using dictionary', async () => {
+    client.eq.mockResolvedValue({
       data: [
         {id: 1, name: "T-Shirt"}
       ]
     })
-  })
-
-  test('using dictionary', async () => {
     const products = await Product
       .where({type: 'tshirt'})
 
@@ -280,6 +279,11 @@ describe('where', () => {
   })
 
   test('using key and value', async () => {
+    client.eq.mockResolvedValue({
+      data: [
+        {id: 1, name: "T-Shirt"}
+      ]
+    })
     const products = await Product
       .where('type', 'tshirt')
 
@@ -289,6 +293,11 @@ describe('where', () => {
   })
 
   test('using key, op and value', async () => {
+    client.eq
+      .mockReturnValueOnce(client)
+      .mockReturnValueOnce(Promise.resolve({
+        data: [{id: 1, name: "T-Shirt"}]
+      }))
     const products = await Product
       .where('type', 'eq', 'tshirt')
       .where('price', '=', 100)
@@ -302,8 +311,8 @@ describe('where', () => {
   })
 })
 
-test('scopes', async () => {
-  client.select.mockResolvedValue({
+test('named scope', async () => {
+  client.gt.mockResolvedValue({
     data: [
       {id: 1, name: "T-Shirt"}
     ]

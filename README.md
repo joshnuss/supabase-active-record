@@ -124,6 +124,33 @@ await Product
   .limit(10) // 10 records max
 ```
 
+### Joining
+
+(not yet working)
+
+Multiple models can be joined together
+
+```javascript
+import { ActiveRecord, belongsTo } from 'supabase-active-record'
+
+class Product extends ActiveRecord {
+  static config = [
+    table: 'products',
+    fields: {
+      id: 'serial',
+      name: 'string',
+      category: belongsTo(Category)
+    }
+  ]
+}
+
+const product = await Product
+  .find(1)
+  .join('category')
+
+console.log(product.category) // Category { name: 'T-Shirts' }
+```
+
 ## Scopes
 
 Named scopes can be defined using `static` functions:

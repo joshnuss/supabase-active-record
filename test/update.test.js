@@ -74,7 +74,7 @@ describe('updating', () => {
     expect(product.isChanged).toBe(true)
   })
 
-  test('bulk update', async () => {
+  test('in bulk', async () => {
     client.update.mockResolvedValue({
       data: []
     })

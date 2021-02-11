@@ -1,4 +1,4 @@
-const filterOps = {
+const filterAliases = {
   '=': 'eq',
   '!=': 'neq',
   '>': 'gt',
@@ -120,7 +120,7 @@ export default class Scope {
 
     Object.entries(this._filters).forEach(([key, filters]) => {
       filters.forEach(filter => {
-        const op = filterOps[filter.op] || filter.op
+        const op = filterAliases[filter.op] || filter.op
         query = query[op](key, filter.value)
       })
     })

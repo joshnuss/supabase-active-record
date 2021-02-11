@@ -8,7 +8,7 @@ ActiveRecord implementation for Supabase (experimental).
 - CRUD
 - Validations
 - Relationships `belongsTo()`, `hasMany()`
-- Names scopes
+- Named scopes
 - Filtering
 - Joining
 - Isomorphic

@@ -22,6 +22,7 @@ beforeEach(() => {
     from: jest.fn(() => client),
     match: jest.fn(() => client),
     delete: jest.fn(() => client),
+    eq: jest.fn(() => client),
   }
   ActiveRecord.client = client
 })
@@ -61,5 +62,19 @@ describe('deleting', () => {
     expect(client.delete).toBeCalled()
     expect(product.isPersisted).toBe(false)
     expect(product.isChanged).toBe(true)
+  })
+
+  test('in bulk', async () => {
+    client.delete.mockResolvedValue({
+      data: []
+    })
+
+    await Product
+      .where({price: 20})
+      .delete()
+
+    expect(client.from).toBeCalledWith('products')
+    expect(client.eq).toBeCalledWith('price', 20)
+    expect(client.delete).toBeCalled()
   })
 })

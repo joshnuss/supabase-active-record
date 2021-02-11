@@ -87,6 +87,12 @@ export default class Scope {
     return this
   }
 
+  delete(fields) {
+    this._type = 'delete'
+
+    return this
+  }
+
   then(resolve, reject) {
     let query = this._client
       .from(this._config.table)
@@ -114,6 +120,8 @@ export default class Scope {
       query = query.select(this._fields)
     } else if (this._type == 'update') {
       query = query.update(this._updates)
+    } else if (this._type == 'delete') {
+      query = query.delete()
     }
 
     query

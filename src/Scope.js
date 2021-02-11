@@ -7,7 +7,7 @@ const filterOps = {
   '<=': 'lte'
 }
 
-export default class Query {
+export default class Scope {
   constructor({config, klass, client}) {
     this._config = config
     this._class = klass

@@ -1,4 +1,4 @@
-import Query from './Query.js'
+import Scope from './Scope.js'
 
 class NotFoundError extends Error {
   constructor(message) {
@@ -9,7 +9,7 @@ class NotFoundError extends Error {
 
 export default class ActiveRecord {
   static all() {
-    return new Query({
+    return new Scope({
       config: this.config,
       klass: this,
       client: ActiveRecord.client

@@ -37,7 +37,7 @@ class Person extends ActiveRecord {
 
 ## Querying
 
-There are many ways to query the db, you can query for all:
+To get all records:
 
 ```javascript
 const people = await Person.all()
@@ -49,7 +49,7 @@ To find a single record:
 const person = await Person.findBy({firstName: "Josh", lastName: "Nussbaum"})
 ```
 
-or if you know the `id`, use:
+To find by `id`:
 
 ```javascript
 const person = await Person.find(41)
@@ -67,7 +67,7 @@ try {
 
 ### Filters
 
-Filters can be added to queries using the `where()` function or by chaining multiple `where()`'s together:
+Filters can be added by chaining `.where()` calls together:
 
 ```javascript
 // single filter
